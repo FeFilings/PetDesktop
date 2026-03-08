@@ -21,5 +21,27 @@ namespace PetDesktop.Pet.Manager.Windows
             };
             ServiceBase.Run(ServicesToRun);
         }
+
+        public static int GetPetCount()
+        {
+            // Lets get the number of pets in a file on the desktop
+            string desktopPath = @"C:\Users\roger\Desktop\pets.txt";
+            if (System.IO.File.Exists(desktopPath))
+            {
+                string[] lines = System.IO.File.ReadAllLines(desktopPath);
+                if (lines.Length > 0)
+                {
+                    if (int.TryParse(lines[0], out int petCount))
+                    {
+                        return petCount;
+                    }
+                }
+            }
+            else
+            {
+                System.IO.File.WriteAllText(desktopPath, "0");
+                return 0;
+            }
+        }
     }
 }
